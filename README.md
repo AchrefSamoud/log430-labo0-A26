@@ -242,7 +242,20 @@ jobs:
 
 ## 📦 Livrables
 
-- Code compressé en `.zip` contenant **l'ensemble du code source** du projet Labo 00.
-- Rapport `.pdf` répondant aux 3 questions présentées dans ce fichier. Il est **obligatoire** d'ajouter du code ou des sorties de terminal pour illustrer chacune de vos réponses.
+> ⚠️ **La remise se fait au niveau de la PHASE, pas du labo.** Les Labos 00, 01, 02 et 03 forment la **Phase 1**, remise en une seule fois dans un espace Moodle unique, à la fin de la phase.
+
+Vous déposerez **exactement deux fichiers** dans Moodle, pour toute la Phase 1 :
+
+| # | Fichier | Contenu |
+|---|---|---|
+| 1 | `LOG430-A26-Phase1-EquipeNN.zip` | Le code source des **4 labos**, un dossier par labo (`labo00/`, `labo01/`, `labo02/`, `labo03/`), incluant le fichier `.mwb` du Labo 03 |
+| 2 | `LOG430-A26-Phase1-EquipeNN.pdf` | Un **rapport unique** en 4 sections, une par labo |
+
+> ⚠️ Le rapport PDF doit être déposé **comme fichier séparé**, et non à l'intérieur du zip.
+
+Ce que **ce labo** doit contenir dans la remise :
+
+- Son code source complet, dans le dossier `labo00/` du zip.
+- La section correspondante du rapport, répondant aux **3 questions** de ce fichier. Il est **obligatoire** d'illustrer chaque réponse avec du code ou une sortie de terminal.
 
 Vous avez des questions sur le format de soumission ? [Voici un exemple](https://drive.google.com/file/d/12ss6zSayGCjHCydf9fRJ3wvqsOQNMBa9/view?usp=sharing). Veuillez respecter cette même structure de dossiers pour **toutes** vos soumissions de laboratoire. Cela nous permet de corriger vos laboratoires plus rapidement et plus correctement.
