@@ -1,48 +1,72 @@
-# Annexe 1 : commandes `lxc` utiles
+# Annexe 1 : commandes Docker utiles
 
 ```bash
-# Montrer la liste de VMs
-lxc list
+# Construire l'image à partir du Dockerfile du répertoire courant
+docker build -t log430-labo0:latest .
 
-# Créer une nouvelle VM avec Ubuntu 22.04
-lxc launch ubuntu:22.04 <nom-remote>:<nom-vm> --vm
+# Lister les images présentes sur votre machine
+docker images
 
-# Arrêter une VM
-lxc stop <nom-vm>
+# Lister les conteneurs en cours d'exécution (ajoutez -a pour voir aussi les arrêtés)
+docker ps
 
-# Supprimer une VM
-lxc delete <nom-vm>
+# Démarrer les services décrits dans docker-compose.yml
+docker compose up -d
 
-# Démarrer une VM
-lxc start <nom-vm>
+# Arrêter les services (ajoutez -v pour supprimer aussi les volumes)
+docker compose down
 
-# Changer de remote (c'est utile si vous utilisez plusieurs serveurs LXD)
-lxc remote switch <nom-remote>
+# Ouvrir un terminal interactif dans un conteneur en cours d'exécution
+docker compose exec calculator bash
 
-# Voir les logs d'une VM
-lxc console <nom-vm> --show-log
+# Voir les logs d'un service (-f pour suivre en continu)
+docker compose logs -f calculator
 
-# Copier un fichier vers la VM
-lxc file push fichier.txt <nom-vm>/root/
+# Supprimer une image locale
+docker rmi log430-labo0:latest
 
-# Copier un fichier depuis la VM
-lxc file pull <nom-vm>/root/fichier.txt ./fichier.txt
+# Faire le ménage : images, conteneurs et réseaux inutilisés
+docker system prune
 ```
 
-# Annexe 2 : autres commandes utiles
+# Annexe 2 : commandes GitHub Container Registry (GHCR)
+
 ```bash
-# Vérifier l'utilisation du CPU et les processus en cours
-top     
+# S'authentifier au registre (le token doit avoir la portée write:packages)
+echo <VOTRE_TOKEN> | docker login ghcr.io -u <votre-username> --password-stdin
 
-# Vérifier l'utilisation de la RAM
-free -h  
+# Construire une image en respectant la convention de nommage du registre
+# ATTENTION : le nom doit être entièrement en minuscules
+docker build -t ghcr.io/<votre-username>/log430-labo0:latest .
 
-# Vérifier l'espace disque disponible
-df -h     
+# Publier l'image
+docker push ghcr.io/<votre-username>/log430-labo0:latest
 
-# Vérifier l'IP de votre VM et les interfaces réseau disponibles
-ip addr show
+# Récupérer l'image depuis le registre
+docker pull ghcr.io/<votre-username>/log430-labo0:latest
 
-# Vérifier l'IP de votre VM et les interfaces réseau disponibles (alternative)
-ifconfig
+# Ajouter une étiquette de version à une image existante
+docker tag ghcr.io/<votre-username>/log430-labo0:latest ghcr.io/<votre-username>/log430-labo0:v1.0
+
+# Se déconnecter du registre
+docker logout ghcr.io
+```
+
+# Annexe 3 : observer les ressources
+
+```bash
+# Consommation CPU/RAM/réseau de tous les conteneurs, vue de l'hôte
+docker stats
+
+# Processus en cours à l'intérieur du conteneur
+docker compose exec calculator top
+
+# Utilisation de la RAM à l'intérieur du conteneur
+docker compose exec calculator free -h
+
+# Espace disque disponible
+docker compose exec calculator df -h
+
+# Détail des couches d'une image et de leur taille
+docker image history log430-labo0:latest
 ```
