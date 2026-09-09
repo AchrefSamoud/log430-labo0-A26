@@ -153,7 +153,7 @@ Dans ce laboratoire, nous publierons notre image dans le [GitHub Container Regis
 
 Avant d'automatiser quoi que ce soit, faites-le une fois à la main pour comprendre chaque étape.
 
-D'abord, créez un [Personal Access Token (classic)](https://github.com/settings/tokens) avec la portée `write:packages`. Puis, connectez-vous au registre :
+D'abord, créez un [Personal Access Token **classic**](https://github.com/settings/tokens) avec la portée `write:packages`. Un jeton *fine-grained* ne fonctionne pas correctement avec GHCR. Puis, connectez-vous au registre :
 
 ```bash
 echo <VOTRE_TOKEN> | docker login ghcr.io -u <VOTRE_USERNAME_GITHUB> --password-stdin
@@ -162,13 +162,13 @@ echo <VOTRE_TOKEN> | docker login ghcr.io -u <VOTRE_USERNAME_GITHUB> --password-
 Construisez votre image en la nommant selon la convention du registre (le nom doit être **en minuscules**) :
 
 ```bash
-docker build -t ghcr.io/<votre-username>/log430-labo0:latest .
+docker build -t ghcr.io/<votre-username>/<nom-de-votre-depot>:latest .
 ```
 
 Publiez-la :
 
 ```bash
-docker push ghcr.io/<votre-username>/log430-labo0:latest
+docker push ghcr.io/<votre-username>/<nom-de-votre-depot>:latest
 ```
 
 Votre image devrait maintenant apparaître dans l'onglet « Packages » de votre profil GitHub.
@@ -176,9 +176,13 @@ Votre image devrait maintenant apparaître dans l'onglet « Packages » de votre
 Pour valider que l'image est réellement utilisable, supprimez votre copie locale et récupérez celle du registre :
 
 ```bash
-docker rmi ghcr.io/<votre-username>/log430-labo0:latest
-docker run -it --rm ghcr.io/<votre-username>/log430-labo0:latest python src/calculator.py
+docker rmi ghcr.io/<votre-username>/<nom-de-votre-depot>:latest
+docker run -it --rm ghcr.io/<votre-username>/<nom-de-votre-depot>:latest python src/calculator.py
 ```
+
+> ⚠️ **IMPORTANT** : Utilisez exactement le **nom de votre dépôt** dans le nom de l'image. L'activité 6 publiera au même endroit (`ghcr.io/OWNER/DEPOT`), et les deux étapes alimenteront ainsi le même paquet plutôt que deux paquets distincts.
+
+> 📝 **Si l'activité 6 échoue avec `denied: permission_denied`** : votre paquet a été créé manuellement et n'est pas encore rattaché au dépôt. Allez dans « Packages » → votre image → « Package settings » → « Manage Actions access » → ajoutez votre dépôt avec le rôle **Write**.
 
 > 📝 **NOTE** : Par défaut, une image publiée est privée. Pour la rendre publique, allez dans « Packages » → votre image → « Package settings » → « Change visibility ».
 
